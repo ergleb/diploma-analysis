@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+import configparser
 import matplotlib.pyplot as plt
 import pandas as pd
 from pymongo import MongoClient
@@ -46,8 +47,8 @@ col_rates = db.rate
 # rates = get_rates(col_rates, 'BTCUSDT')
 # for rate in rates:
 #      print(rate)
-start = datetime(2018, 5, 2, 22, 17, 9)
-end = datetime(2018, 5, 5, 22, 17, 9)
+start = datetime(2018, 5, 5, 22, 17, 9)
+end = datetime(2018, 5, 6, 22, 17, 9)
 
 delta = timedelta(minutes=10)
 col_tweets = db.tweets
@@ -79,28 +80,28 @@ rates_df.drop(rates_df.index[[len(rates_df) - 1]], inplace=True)
 rates_df["sentiment"] = avg_list
 rates_df["count"] = count_list
 rates_df = rates_df[["date", "rate", "symbol", "sentiment", "count"]]
-rates_df.to_csv("data.csv")
-num_values = rates_df[["sentiment", "rate"]].values
-min_max_scaler = preprocessing.MinMaxScaler()
-num_values_minmax = min_max_scaler.fit_transform(num_values)
-print(num_values)
-print(num_values_minmax)
-print(rates_df["sentiment"].corr(rates_df["rate"]))
-
-fig, ax1 = plt.subplots()
-
-color = 'tab:red'
-ax1.set_xlabel('time (s)')
-ax1.set_ylabel('sentiment', color=color)
-ax1.plot_date(rates_df["date"], rates_df['sentiment'], color=color, linestyle="solid")
-ax1.tick_params(axis='y', labelcolor=color)
-
-ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
-
-color = 'tab:blue'
-ax2.set_ylabel('rate', color=color)  # we already handled the x-label with ax1
-ax2.plot_date(rates_df["date"], rates_df['rate'], color=color, linestyle="solid")
-ax2.tick_params(axis='y', labelcolor=color)
-
-fig.tight_layout()  # otherwise the right y-label is slightly clipped
-plt.show()
+rates_df.to_csv("more_data.csv")
+# num_values = rates_df[["sentiment", "rate"]].values
+# min_max_scaler = preprocessing.MinMaxScaler()
+# num_values_minmax = min_max_scaler.fit_transform(num_values)
+# print(num_values)
+# print(num_values_minmax)
+# print(rates_df["sentiment"].corr(rates_df["rate"]))
+#
+# fig, ax1 = plt.subplots()
+#
+# color = 'tab:red'
+# ax1.set_xlabel('time (s)')
+# ax1.set_ylabel('sentiment', color=color)
+# ax1.plot_date(rates_df["date"], rates_df['sentiment'], color=color, linestyle="solid")
+# ax1.tick_params(axis='y', labelcolor=color)
+#
+# ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
+#
+# color = 'tab:blue'
+# ax2.set_ylabel('rate', color=color)  # we already handled the x-label with ax1
+# ax2.plot_date(rates_df["date"], rates_df['rate'], color=color, linestyle="solid")
+# ax2.tick_params(axis='y', labelcolor=color)
+#
+# fig.tight_layout()  # otherwise the right y-label is slightly clipped
+# plt.show()
